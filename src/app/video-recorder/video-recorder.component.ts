@@ -1,27 +1,23 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { interval } from 'rxjs';
+import { Component, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
+import { VideoStreamerService } from '../video-streamer.service';
 
 @Component({
   selector: 'app-video-recorder',
   templateUrl: './video-recorder.component.html',
   styleUrls: ['./video-recorder.component.css']
 })
-export class VideoRecorderComponent {
+export class VideoRecorderComponent implements AfterContentInit {
 
   @ViewChild('recorder') recorder: ElementRef;
-  @ViewChild('player') player: ElementRef;
-  // Get video
-  constructor() {
+
+  constructor(private videoStreamerService: VideoStreamerService) { }
+
+  ngAfterContentInit() {
     navigator.mediaDevices.getUserMedia({video: true})
       .then((stream: MediaStream) => {
         const recorderElement: HTMLVideoElement = this.recorder.nativeElement;
         recorderElement.srcObject = stream;
-        const playerElement: HTMLCanvasElement = this.player.nativeElement;
-        const playerCtx: CanvasRenderingContext2D = playerElement.getContext('2d');
-        interval(0)
-          .subscribe(() => {
-            playerCtx.drawImage(recorderElement, 0, 0, playerElement.width, playerElement.height);
-          });
+        this.videoStreamerService.setImageSource(recorderElement);
       })
       .catch((error) => {
           console.log('Error:', error);

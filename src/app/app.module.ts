@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VideoRecorderComponent } from './video-recorder/video-recorder.component';
+import { VideoCanvasComponent } from './video-canvas/video-canvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VideoRecorderComponent
+    VideoRecorderComponent,
+    VideoCanvasComponent
   ],
   imports: [
     BrowserModule,

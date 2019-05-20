@@ -1,27 +1,25 @@
-import { Component, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { VideoStreamerService } from '../video-streamer.service';
+import { UserMediaService } from '../user-media.service';
 
 @Component({
   selector: 'app-video-recorder',
   templateUrl: './video-recorder.component.html',
   styleUrls: ['./video-recorder.component.css']
 })
-export class VideoRecorderComponent implements AfterContentInit {
+export class VideoRecorderComponent implements OnInit {
 
   @ViewChild('recorder') recorder: ElementRef;
 
-  constructor(private videoStreamerService: VideoStreamerService) { }
+  constructor(private userMediaService: UserMediaService, private videoStreamerService: VideoStreamerService) { }
 
-  ngAfterContentInit() {
-    navigator.mediaDevices.getUserMedia({video: true})
-      .then((stream: MediaStream) => {
-        const recorderElement: HTMLVideoElement = this.recorder.nativeElement;
-        recorderElement.srcObject = stream;
-        this.videoStreamerService.setImageSource(recorderElement);
-      })
-      .catch((error) => {
-          console.log('Error:', error);
-      });
+  ngOnInit() {
+    const recorderElement: HTMLVideoElement = this.recorder.nativeElement;
+    this.userMediaService.getUserMedia({video: true}).subscribe(
+      stream => recorderElement.srcObject = stream,
+      error => console.log('Error:', error)
+    );
+    this.videoStreamerService.setImageSource(recorderElement);
   }
 
 }

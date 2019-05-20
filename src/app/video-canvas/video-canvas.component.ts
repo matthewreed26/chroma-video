@@ -1,5 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { Component, ViewChild, ElementRef, OnInit, NgZone } from '@angular/core';
 import { VideoStreamerService } from '../video-streamer.service';
 
 @Component({
@@ -7,19 +6,21 @@ import { VideoStreamerService } from '../video-streamer.service';
   templateUrl: './video-canvas.component.html',
   styleUrls: ['./video-canvas.component.css']
 })
-export class VideoCanvasComponent implements AfterContentInit {
+export class VideoCanvasComponent implements OnInit {
 
   @ViewChild('player') player: ElementRef;
 
-  constructor(private videoStreamerService: VideoStreamerService) { }
+  constructor(private videoStreamerService: VideoStreamerService, private ngZone: NgZone) { }
 
-  ngAfterContentInit() {
+  ngOnInit() {
     const playerElement: HTMLCanvasElement = this.player.nativeElement;
     const playerCtx: CanvasRenderingContext2D = playerElement.getContext('2d');
-    interval(0)
-      .subscribe(() => {
-        playerCtx.drawImage(this.videoStreamerService.getImageSource(), 0, 0, playerElement.width, playerElement.height);
-      });
+    this.ngZone.runOutsideAngular(() => this.draw(playerElement, playerCtx));
+  }
+
+  draw(playerElement: HTMLCanvasElement, playerCtx: CanvasRenderingContext2D) {
+    playerCtx.drawImage(this.videoStreamerService.getImageSource(), 0, 0, playerElement.width, playerElement.height);
+    window.requestAnimationFrame(() => this.draw(playerElement, playerCtx));
   }
 
 }

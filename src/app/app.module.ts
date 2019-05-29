@@ -4,13 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VideoRecorderComponent } from './video-recorder/video-recorder.component';
-import { VideoCanvasComponent } from './video-canvas/video-canvas.component';
+import { InvisibilityCloakComponent } from './invisibility-cloak/invisibility-cloak.component';
+import { ChromaRotoscopingComponent } from './chroma-rotoscoping/chroma-rotoscoping.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VideoRecorderComponent,
-    VideoCanvasComponent
+    InvisibilityCloakComponent,
+    ChromaRotoscopingComponent
   ],
   imports: [
     BrowserModule,

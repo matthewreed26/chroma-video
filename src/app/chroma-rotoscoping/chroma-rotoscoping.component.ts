@@ -1,12 +1,12 @@
-import { Component, ViewChild, ElementRef, OnInit, NgZone } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, NgZone, Input } from '@angular/core';
 import { VideoStreamerService } from '../video-streamer.service';
 
 @Component({
-  selector: 'app-video-canvas',
-  templateUrl: './video-canvas.component.html',
-  styleUrls: ['./video-canvas.component.css']
+  selector: 'app-chroma-rotoscoping',
+  templateUrl: './chroma-rotoscoping.component.html',
+  styleUrls: ['./chroma-rotoscoping.component.css']
 })
-export class VideoCanvasComponent implements OnInit {
+export class ChromaRotoscopingComponent implements OnInit {
 
   @ViewChild('player') player: ElementRef;
 
@@ -38,6 +38,9 @@ export class VideoCanvasComponent implements OnInit {
         if (b > 100 ) {
           frame.data[i * 4 + 3] = 0;
         }
+      } else {
+        frame.data[i * 4 + 0] = 200;
+        frame.data[i * 4 + 2] = 200;
       }
     }
     return frame;

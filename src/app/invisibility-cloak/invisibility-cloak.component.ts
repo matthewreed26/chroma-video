@@ -8,23 +8,23 @@ import { VideoStreamerService } from '../video-streamer.service';
 })
 export class InvisibilityCloakComponent implements OnInit {
 
-  @ViewChild('player') player: ElementRef;
+  @ViewChild('canvas1') c1ViewChild: ElementRef;
 
   constructor(private videoStreamerService: VideoStreamerService, private ngZone: NgZone) { }
 
   ngOnInit() {
-    const playerElement: HTMLCanvasElement = this.player.nativeElement;
-    const playerCtx: CanvasRenderingContext2D = playerElement.getContext('2d');
-    this.ngZone.runOutsideAngular(() => this.draw(playerElement, playerCtx));
+    const c1: HTMLCanvasElement = this.c1ViewChild.nativeElement;
+    const ctx1: CanvasRenderingContext2D = c1.getContext('2d');
+    this.ngZone.runOutsideAngular(() => this.draw(c1, ctx1));
   }
 
-  draw(playerElement: HTMLCanvasElement, playerCtx: CanvasRenderingContext2D) {
-    playerCtx.drawImage(this.videoStreamerService.getImageSource(), 0, 0, playerElement.width, playerElement.height);
+  draw(canvasElement: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) {
+    canvasCtx.drawImage(this.videoStreamerService.getImageSource(), 0, 0, canvasElement.width, canvasElement.height);
 
-    const frame = playerCtx.getImageData(0, 0, playerElement.width, playerElement.height);
-    playerCtx.putImageData(this.findAndRemoveBlue(frame), 0, 0);
+    const frame = canvasCtx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.putImageData(this.findAndRemoveBlue(frame), 0, 0);
 
-    window.requestAnimationFrame(() => this.draw(playerElement, playerCtx));
+    window.requestAnimationFrame(() => this.draw(canvasElement, canvasCtx));
   }
 
   findAndRemoveBlue(frame: ImageData): ImageData {

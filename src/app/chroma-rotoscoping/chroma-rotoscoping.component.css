@@ -1,5 +1,26 @@
-#player {
-  width: 640px;
-  height: 480px;
-  border: 20px solid;
+.canvas-wrapper {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid;
+  background-image: url(../../assets/images/beach.jpg);
+  background-size: cover;
+}
+canvas {
+  width: 480px;
+  height: 368px;
+  position: absolute;
+  transform-origin: bottom;
+}
+#canvas1 {
+  left: 50%;
+  margin-left: -240px;
+  z-index: 1;
+}
+#canvas2 {
+  left: -100px;
+  transform: scale(0.95);
+}
+#canvas3 {
+  right: -100px;
+  transform: scale(0.95);
 }

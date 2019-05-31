@@ -10,6 +10,7 @@ export class InvisibilityCloakComponent implements OnInit {
 
   @ViewChild('canvas1') c1ViewChild: ElementRef;
   @Input() colorFilter: string;
+  @Input() magnitudeFilter: number;
 
   constructor(private videoStreamerService: VideoStreamerService, private ngZone: NgZone) { }
 
@@ -37,17 +38,17 @@ export class InvisibilityCloakComponent implements OnInit {
 
       switch (this.colorFilter) {
         case 'Red':
-          if (r > g && r > b && r > 100) {
+          if (r > g && r > b && r > this.magnitudeFilter) {
             frame.data[i * 4 + 3] = 0;
           }
           break;
         case 'Green':
-          if (g > r && g > b && g > 100) {
+          if (g > r && g > b && g > this.magnitudeFilter) {
             frame.data[i * 4 + 3] = 0;
           }
           break;
         case 'Blue':
-          if (b > r && b > g && b > 100) {
+          if (b > r && b > g && b > this.magnitudeFilter) {
             frame.data[i * 4 + 3] = 0;
           }
           break;

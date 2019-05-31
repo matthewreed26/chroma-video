@@ -2,8 +2,12 @@
 <div class="wrapper">
   <div>
     <app-video-recorder></app-video-recorder>
-    <app-invisibility-cloak [colorFilter]="colorFilter"></app-invisibility-cloak>
-    <!-- <app-chroma-rotoscoping style="display: grid;" [colorFilter]="colorFilter"></app-chroma-rotoscoping> -->
+    <app-invisibility-cloak
+        [colorFilter]="colorFilter"
+        [magnitudeFilter]="magnitudeFilter"></app-invisibility-cloak>
+    <!-- <app-chroma-rotoscoping style="display: grid;"
+        [colorFilter]="colorFilter"
+        [magnitudeFilter]="magnitudeFilter"></app-chroma-rotoscoping> -->
   </div>
   <div>
     <span>Video</span>
@@ -11,10 +15,17 @@
   </div>
 </div>
 <div class="picker">
-  <label for="colorFilter">Select color</label>
-  <select id="colorFilter" [(ngModel)]="colorFilter">
-    <option>Red</option>
-    <option>Green</option>
-    <option>Blue</option>
-  </select>
+  <div>
+    <label for="colorFilter">Select color</label>
+    <select id="colorFilter" [(ngModel)]="colorFilter">
+      <option>Red</option>
+      <option>Green</option>
+      <option>Blue</option>
+    </select>
+  </div>
+  <!-- <div>
+    <label for="magnitudeFilterSilder">Select magnitude</label>
+    <input type="range" min="1" max="255" id="magnitudeFilterSilder" [(ngModel)]="magnitudeFilter">
+    <input type="number" min="1" max="255" id="magnitudeFilterInputNumber" [(ngModel)]="magnitudeFilter">
+  </div> -->
 </div>

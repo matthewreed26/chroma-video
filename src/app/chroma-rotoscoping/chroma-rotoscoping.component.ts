@@ -11,6 +11,7 @@ export class ChromaRotoscopingComponent implements OnInit {
   @ViewChild('canvas1') c1ViewChild: ElementRef;
   @ViewChild('canvas2') c2ViewChild: ElementRef;
   @ViewChild('canvas3') c3ViewChild: ElementRef;
+  @Input() colorFilter: string;
 
   constructor(private videoStreamerService: VideoStreamerService, private ngZone: NgZone) { }
 
@@ -30,27 +31,50 @@ export class ChromaRotoscopingComponent implements OnInit {
     canvasCtx.drawImage(this.videoStreamerService.getImageSource(), 0, 0, canvasElement.width, canvasElement.height);
 
     const frame = canvasCtx.getImageData(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.putImageData(this.findAndRemoveBlue(frame, primaryCanvas), 0, 0);
+    canvasCtx.putImageData(this.filterFrameByColor(frame, primaryCanvas), 0, 0);
 
     window.requestAnimationFrame(() => this.draw(canvasElement, canvasCtx, primaryCanvas));
   }
 
-  findAndRemoveBlue(frame: ImageData, primaryCanvas: boolean): ImageData {
+  filterFrameByColor(frame: ImageData, primaryCanvas: boolean): ImageData {
     const l = frame.data.length / 4;
     for (let i = 0; i < l; i++) {
       const r = frame.data[i * 4 + 0];
       const g = frame.data[i * 4 + 1];
       const b = frame.data[i * 4 + 2];
 
-      if (b > r && b > g) {
-        if (b > 100 ) {
-          frame.data[i * 4 + 3] = 0;
-        }
-      } else {
-        if (!primaryCanvas) {
-          frame.data[i * 4 + 0] = 200;
-          frame.data[i * 4 + 2] = 200;
-        }
+
+      switch (this.colorFilter) {
+        case 'Red':
+          if (r > g && r > b && r > 100) {
+            frame.data[i * 4 + 3] = 0;
+          } else {
+            if (!primaryCanvas) {
+              frame.data[i * 4 + 0] = 200;
+              frame.data[i * 4 + 2] = 200;
+            }
+          }
+          break;
+        case 'Green':
+          if (g > r && g > b && g > 100) {
+            frame.data[i * 4 + 3] = 0;
+          } else {
+            if (!primaryCanvas) {
+              frame.data[i * 4 + 0] = 200;
+              frame.data[i * 4 + 2] = 200;
+            }
+          }
+          break;
+        case 'Blue':
+          if (b > r && b > g && b > 100) {
+            frame.data[i * 4 + 3] = 0;
+          } else {
+            if (!primaryCanvas) {
+              frame.data[i * 4 + 0] = 200;
+              frame.data[i * 4 + 2] = 200;
+            }
+          }
+          break;
       }
     }
     return frame;

@@ -2,11 +2,19 @@
 <div class="wrapper">
   <div>
     <app-video-recorder></app-video-recorder>
-    <app-invisibility-cloak></app-invisibility-cloak>
-    <!-- <app-chroma-rotoscoping style="display: grid;"></app-chroma-rotoscoping> -->
+    <app-invisibility-cloak [colorFilter]="colorFilter"></app-invisibility-cloak>
+    <!-- <app-chroma-rotoscoping style="display: grid;" [colorFilter]="colorFilter"></app-chroma-rotoscoping> -->
   </div>
   <div>
     <span>Video</span>
     <span>Canvas</span>
   </div>
+</div>
+<div class="picker">
+  <label for="colorFilter">Select color</label>
+  <select id="colorFilter" [(ngModel)]="colorFilter">
+    <option>Red</option>
+    <option>Green</option>
+    <option>Blue</option>
+  </select>
 </div>

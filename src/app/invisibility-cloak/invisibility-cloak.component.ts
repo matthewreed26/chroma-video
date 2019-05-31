@@ -9,6 +9,7 @@ import { VideoStreamerService } from '../video-streamer.service';
 export class InvisibilityCloakComponent implements OnInit {
 
   @ViewChild('canvas1') c1ViewChild: ElementRef;
+  @Input() colorFilter: string;
 
   constructor(private videoStreamerService: VideoStreamerService, private ngZone: NgZone) { }
 
@@ -22,22 +23,34 @@ export class InvisibilityCloakComponent implements OnInit {
     canvasCtx.drawImage(this.videoStreamerService.getImageSource(), 0, 0, canvasElement.width, canvasElement.height);
 
     const frame = canvasCtx.getImageData(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.putImageData(this.findAndRemoveBlue(frame), 0, 0);
+    canvasCtx.putImageData(this.filterFrameByColor(frame), 0, 0);
 
     window.requestAnimationFrame(() => this.draw(canvasElement, canvasCtx));
   }
 
-  findAndRemoveBlue(frame: ImageData): ImageData {
+  filterFrameByColor(frame: ImageData): ImageData {
     const l = frame.data.length / 4;
     for (let i = 0; i < l; i++) {
       const r = frame.data[i * 4 + 0];
       const g = frame.data[i * 4 + 1];
       const b = frame.data[i * 4 + 2];
 
-      if (b > r && b > g) {
-        if (b > 100 ) {
-          frame.data[i * 4 + 3] = 0;
-        }
+      switch (this.colorFilter) {
+        case 'Red':
+          if (r > g && r > b && r > 100) {
+            frame.data[i * 4 + 3] = 0;
+          }
+          break;
+        case 'Green':
+          if (g > r && g > b && g > 100) {
+            frame.data[i * 4 + 3] = 0;
+          }
+          break;
+        case 'Blue':
+          if (b > r && b > g && b > 100) {
+            frame.data[i * 4 + 3] = 0;
+          }
+          break;
       }
     }
     return frame;

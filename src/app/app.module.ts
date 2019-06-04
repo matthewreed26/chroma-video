@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VideoRecorderComponent } from './video-recorder/video-recorder.component';
 import { InvisibilityCloakComponent } from './invisibility-cloak/invisibility-cloak.component';
+import { InvisibilityCloakModule } from './invisibility-cloak/invisibility-cloak.module';
 import { ChromaRotoscopingComponent } from './chroma-rotoscoping/chroma-rotoscoping.component';
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ChromaRotoscopingComponent } from './chroma-rotoscoping/chroma-rotoscop
   imports: [
     FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    InvisibilityCloakModule
   ],
   providers: [],
   bootstrap: [AppComponent]
